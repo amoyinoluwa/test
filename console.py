@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+from models.base_model import BaseModel
+from inspect import isclass
 import cmd
 
 """The HBNB command console"""
@@ -6,6 +8,24 @@ import cmd
 class HBNBCommand(cmd.Cmd):
     """The HBNBCommand class is a limited-use command line interpreter for manipulating objects"""
     prompt = '(hbnb) '
+
+    def do_create(self, arg):
+        """Creates a new instance of BaseModel and prints the id"""
+        if not arg:
+            print("** class name missing **")
+        else:
+            arg = BaseModel()
+            print(arg.id)
+
+    def do_show(self, args):
+        """Prints the string representation of an instance based on the class name and id"""
+        if not args:
+            print("** class name missing **")
+        if not isclass(args[0]):
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        else:
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
