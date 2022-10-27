@@ -15,6 +15,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             arg = BaseModel()
+            arg.save()
             print(arg.id)
 
     def do_show(self, arg):
