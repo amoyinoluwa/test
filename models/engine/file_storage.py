@@ -3,7 +3,6 @@
 
 
 import json
-import uuid
 
 
 class FileStorage:
@@ -39,7 +38,7 @@ class FileStorage:
         """deserializes the JSON file to __objects"""
         try:
             with open(self.__file_path, "r") as file:
-                load = json.load(self.__file_path)
+                load = json.load(file.read())
                 return load
         except IOError:
             pass
