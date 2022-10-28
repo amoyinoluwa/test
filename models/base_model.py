@@ -19,7 +19,7 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key == "created_at":
                     self.created_at = datetime.strptime(
-                        value,time)
+                        value, time)
                 elif key == "updated_at":
                     self.updated_at = datetime.strptime(
                         value, time)
@@ -31,6 +31,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
         
     def __str__(self):
         """prints model"""
@@ -47,12 +48,12 @@ class BaseModel:
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__
         of the instance"""
-        class_dict = {
-            "name": getattr(self, "name"),
-            "my_number": getattr(self, "my_number"),
-            "id": self.id,
-            "__class__": self.__class__.__name__,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
-        }
+        class_dict = dict()
+        dates = set(["created_at", "updated_at"])
+        for key, value in self.__dict__.items():
+            if key in dates:
+                class_dict[key] = value.isoformat()
+            else:
+                class_dict[key] = value
+        class_dict["__class__"] = self.__class__.__name__
         return class_dict 

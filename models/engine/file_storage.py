@@ -31,16 +31,16 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file"""
-        dump = json.dumps(self.__objects)
-        with open(self.__file_path, "a") as file:
-            file.write(dump)
+        with open(self.__file_path, "w") as f:
+            json.dump({objName: obj.to_dict() for objName, obj in self.__objects}, f)
     
     def reload(self):
         """deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path, "r") as file:
-                load = json.load(self.__file_path)
-                return load
+            with open(self.__file_path, "r") as f:
+                load = json.load(f)
+                for key in load:
+                    self.__objects[key] = classes[load[key]["__class__"]](**load[key]) 
         except IOError:
             pass
         
