@@ -45,6 +45,21 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
+    
+    def do_all(self, arg):
+        """Prints string representations of instances"""
+        if not arg:
+            print([str(_class) for _, _class in models.storage.all().items()])
+        else:
+            result = []
+            for key in models.storage.all():
+                currClass = key.split('.')[0]
+                if currClass == arg:
+                    result.append(str(models.storage.all()[key]))
+            if not result:
+                print("** class doesn't exist **")
+            else:
+                print(result)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

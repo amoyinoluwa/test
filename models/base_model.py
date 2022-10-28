@@ -5,10 +5,9 @@ Contains BaseModel class
 
 import uuid
 from datetime import datetime
-from models import storage
+import models
 
-time_format = "%Y-%m-%dT%H:%M:%S.%f"
-
+time = "%Y-%m-%dT%H:%M:%S.%f"
 
 class BaseModel:
     """ Represent a class BaseModel that defines
@@ -17,15 +16,18 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         if kwargs:
             for key, value in kwargs.items():
-                if key == "created_at":
-                    self.created_at = datetime.strptime(
-                        value, time_format)
-                elif key == "updated_at":
-                    self.updated_at = datetime.strptime(
-                        value, time_format)
-                else:
-                    if (key != '__class__'):
-                        setattr(self, key, value)
+                if (key != '__class__'):
+                    setattr(self, key, value)
+            if kwargs.get("created_at", None) and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], time)
+            else:
+                self.created_at = datetime.now()
+            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
+            else:
+                self.updated_at = datetime.now()
+            if kwargs.get("id", None) is None:
+                self.id = str(uuid.uuid4())
         else:
             """Initializes the unique id for each BaseModel"""    
             self.id = str(uuid.uuid4())
@@ -35,8 +37,7 @@ class BaseModel:
         
     def __str__(self):
         """prints model"""
-        s = "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
-        return s
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
     
     def save(self):
         """updates the public instance attribute `updated_at with 
