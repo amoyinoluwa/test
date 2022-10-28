@@ -5,9 +5,9 @@ Contains BaseModel class
 
 import uuid
 from datetime import datetime
-import models
+from models import storage
 
-time = "%Y-%m-%dT%H:%M:%S.%f"
+time_format = "%Y-%m-%dT%H:%M:%S.%f"
 
 
 class BaseModel:
@@ -19,10 +19,10 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key == "created_at":
                     self.created_at = datetime.strptime(
-                        value, time)
+                        value, time_format)
                 elif key == "updated_at":
                     self.updated_at = datetime.strptime(
-                        value, time)
+                        value, time_format)
                 else:
                     if (key != '__class__'):
                         setattr(self, key, value)
@@ -56,4 +56,4 @@ class BaseModel:
             else:
                 class_dict[key] = value
         class_dict["__class__"] = self.__class__.__name__
-        return class_dict 
+        return class_dict

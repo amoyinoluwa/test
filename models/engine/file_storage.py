@@ -3,7 +3,6 @@
 
 
 import json
-import uuid
 
 
 class FileStorage:
@@ -40,8 +39,6 @@ class FileStorage:
             with open(self.__file_path, "r") as f:
                 load = json.load(f)
                 for key in load:
-                    self.__objects[key] = classes[load[key]["__class__"]](**load[key]) 
+                    self.__objects[key] = classes[load[key]["__class__"]](**load[key])
         except IOError:
             pass
-        
-    
