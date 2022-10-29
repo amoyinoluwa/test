@@ -5,7 +5,7 @@ Contains BaseModel class
 
 import uuid
 from datetime import datetime
-from models import storage
+import models
 
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -43,7 +43,7 @@ class BaseModel:
         """
         self.updated_at = datetime.now()
         models.storage.save()
-
+        
     def to_dict(self):
         """returns a dictionary containing all keys/values of __dict__
         of the instance"""
