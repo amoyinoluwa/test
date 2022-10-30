@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 from models.base_model import BaseModel
 from inspect import isclass
-import cmd, shlex, models
+import cmd
+import shlex
+import models
 
 """The HBNB command console"""
+
 
 class HBNBCommand(cmd.Cmd):
     """The HBNBCommand class is a limited-use command line interpreter for manipulating objects"""
@@ -45,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
-    
+
     def do_all(self, arg):
         """Prints string representations of instances"""
         if not arg:
@@ -60,6 +63,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             else:
                 print(result)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
